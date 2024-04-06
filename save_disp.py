@@ -29,10 +29,11 @@ parser = argparse.ArgumentParser(description='Accurate and Efficient Stereo Matc
 parser.add_argument('--model', default='Fast_ACVNet_plus', help='select a model structure', choices=__models__.keys())
 parser.add_argument('--maxdisp', type=int, default=192, help='maximum disparity')
 parser.add_argument('--dataset', default='kitti', help='dataset name', choices=__datasets__.keys())
-parser.add_argument('--kitti15_datapath', default='/data/KITTI/KITTI_2015/', help='data path')
-parser.add_argument('--kitti12_datapath', default='/data/KITTI/KITTI_2012/', help='data path')
+parser.add_argument('--kitti15_datapath', default='./data/KITTI/KITTI_2015/', help='data path')
+parser.add_argument('--kitti12_datapath', default='./data/KITTI/KITTI_2012/', help='data path')
+parser.add_argument('--save_dir', default='./output/kitti15/disp_0', help='save directory')
 parser.add_argument('--testlist', default='./filenames/kitti15_test.txt', help='testing list')
-parser.add_argument('--loadckpt', default='',help='load the weights from a specific checkpoint')
+parser.add_argument('--loadckpt', default='./checkpoints/kitti_2015.ckpt',help='load the weights from a specific checkpoint')
 parser.add_argument('--attention_weights_only', default=False, type=str,  help='only train attention weights')
 # parse arguments
 args = parser.parse_args()
@@ -53,7 +54,7 @@ state_dict = torch.load(args.loadckpt)
 model.load_state_dict(state_dict['model'])
 
 
-save_dir = './output/kitti15/disp_0'
+save_dir = args.save_dir
 
 
 def test():

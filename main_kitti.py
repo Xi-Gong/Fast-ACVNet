@@ -28,8 +28,8 @@ parser.add_argument('--model', default='Fast_ACVNet_plus', help='select a model 
 parser.add_argument('--maxdisp', type=int, default=192, help='maximum disparity')
 
 parser.add_argument('--dataset', default='kitti', help='dataset name', choices=__datasets__.keys())
-parser.add_argument('--kitti12_datapath', default='/data/KITTI/KITTI_2012/', help='data path')
-parser.add_argument('--kitti15_datapath', default='/data/KITTI/KITTI_2015/', help='data path')
+parser.add_argument('--kitti12_datapath', default='./data/KITTI/KITTI_2012/', help='data path')
+parser.add_argument('--kitti15_datapath', default='./data/KITTI/KITTI_2015/', help='data path')
 parser.add_argument('--trainlist', default='./filenames/kitti12_15_all.txt', help='training list')
 parser.add_argument('--testlist',default='./filenames/kitti15_val.txt', help='testing list')
 
