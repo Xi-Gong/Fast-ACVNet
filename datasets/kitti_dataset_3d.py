@@ -34,11 +34,11 @@ class KITTI3DDataset(Dataset):
             idx = [x.strip() for x in f.readlines()]
         sorted(idx)
 
-        left_train = [filepath + '/' + left_fold + img + '.png' for img in idx]
-        right_train = [filepath + '/' + right_fold + img + '.png' for img in idx]
-        disp_train_L = [filepath + '/' + disp_L + img + '.npy' for img in idx]
+        left = [filepath + '/' + left_fold + img + '.png' for img in idx]
+        right = [filepath + '/' + right_fold + img + '.png' for img in idx]
+        disp = [filepath + '/' + disp_L + img + '.npy' for img in idx]
 
-        return left_train, right_train, disp_train_L
+        return left, right, disp
 
     def load_image(self, filename):
         return Image.open(filename).convert('RGB')
