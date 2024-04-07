@@ -32,7 +32,9 @@ class KITTI3DDataset(Dataset):
 
         with open(split_file, 'r') as f:
             idx = [x.strip() for x in f.readlines()]
-        sorted(idx)
+            
+        if not self.training:
+            sorted(idx)
 
         left = [filepath + '/' + left_fold + img + '.png' for img in idx]
         right = [filepath + '/' + right_fold + img + '.png' for img in idx]
