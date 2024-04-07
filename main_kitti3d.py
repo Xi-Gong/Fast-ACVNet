@@ -21,7 +21,7 @@ import gc
 import cv2
 
 cudnn.benchmark = True
-os.environ['CUDA_VISIBLE_DEVICES'] = '0, 1'
+os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 
 parser = argparse.ArgumentParser(description='Accurate and Efficient Stereo Matching via Attention Concatenation Volume (Fast-ACV)')
 parser.add_argument('--model', default='Fast_ACVNet_plus', help='select a model structure', choices=__models__.keys())
@@ -59,8 +59,8 @@ logger = SummaryWriter(args.logdir)
 StereoDataset = __datasets__[args.dataset]
 train_dataset = StereoDataset(args.kitti3d_datapath, args.trainlist, True)
 test_dataset = StereoDataset(args.kitti3d_datapath, args.testlist, False)
-TrainImgLoader = DataLoader(train_dataset, args.batch_size, shuffle=True, num_workers=24, drop_last=True)
-TestImgLoader = DataLoader(test_dataset, args.test_batch_size, shuffle=False, num_workers=24, drop_last=False)
+TrainImgLoader = DataLoader(train_dataset, args.batch_size, shuffle=True, num_workers=8, drop_last=True)
+TestImgLoader = DataLoader(test_dataset, args.test_batch_size, shuffle=False, num_workers=8, drop_last=False)
 
 # model, optimizer
 model = __models__[args.model](args.maxdisp, args.attention_weights_only)
