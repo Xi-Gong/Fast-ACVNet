@@ -18,40 +18,27 @@ class KITTI3DDataset(Dataset):
         if self.training:
             train_data_prefix = self.datapath + "training/"
             self.left_filepath, self.right_filepath, self.disp_filepath = \
-                self.load_train_path(train_data_prefix, split_file)
+                self.load_path(train_data_prefix, split_file)
             assert self.disp_filepath is not None
         else:
             test_data_prefix = self.datapath + "training/"
-            self.left_filepath, self.right_filepath = \
-                self.load_test_path(test_data_prefix, split_file)
-            self.disp_filepath = None
+            self.left_filepath, self.right_filepath, self.disp_filepath = \
+                self.load_path(test_data_prefix, split_file)
     
-    def load_train_path(self, filepath, split_file):
+    def load_path(self, filepath, split_file):
         left_fold = 'image_2/'
         right_fold = 'image_3/'
         disp_L = 'disparity/'
 
         with open(split_file, 'r') as f:
-            train_idx = [x.strip() for x in f.readlines()]
+            idx = [x.strip() for x in f.readlines()]
+        sorted(idx)
 
-        left_train = [filepath + '/' + left_fold + img + '.png' for img in train_idx]
-        right_train = [filepath + '/' + right_fold + img + '.png' for img in train_idx]
-        disp_train_L = [filepath + '/' + disp_L + img + '.npy' for img in train_idx]
+        left_train = [filepath + '/' + left_fold + img + '.png' for img in idx]
+        right_train = [filepath + '/' + right_fold + img + '.png' for img in idx]
+        disp_train_L = [filepath + '/' + disp_L + img + '.npy' for img in idx]
 
         return left_train, right_train, disp_train_L
-
-    def load_test_path(self, filepath, split_file):
-        left_fold  = 'image_2/'
-        right_fold = 'image_3/'
-
-        with open(split_file, 'r') as f:
-            test_idx = [x.strip() for x in f.readlines()]
-        sorted(test_idx)
-
-        left_test = [filepath + '/' + left_fold + img + '.png' for img in test_idx]
-        right_test = [filepath + '/' + right_fold + img + '.png' for img in test_idx]
-
-        return left_test, right_test
 
     def load_image(self, filename):
         return Image.open(filename).convert('RGB')
