@@ -15,15 +15,10 @@ class KITTI3DDataset(Dataset):
     def __init__(self, kitti3d_datapath, split_file, training):
         self.datapath = kitti3d_datapath
         self.training = training
-        if self.training:
-            train_data_prefix = self.datapath + "training/"
-            self.left_filepath, self.right_filepath, self.disp_filepath = \
-                self.load_path(train_data_prefix, split_file)
-            assert self.disp_filepath is not None
-        else:
-            test_data_prefix = self.datapath + "training/"
-            self.left_filepath, self.right_filepath, self.disp_filepath = \
-                self.load_path(test_data_prefix, split_file)
+        data_prefix = self.datapath + "training/"
+        self.left_filepath, self.right_filepath, self.disp_filepath = \
+                self.load_path(data_prefix, split_file)
+        assert self.disp_filepath is not None
     
     def load_path(self, filepath, split_file):
         left_fold = 'image_2/'
@@ -32,7 +27,7 @@ class KITTI3DDataset(Dataset):
 
         with open(split_file, 'r') as f:
             idx = [x.strip() for x in f.readlines()]
-            
+
         if not self.training:
             sorted(idx)
 
