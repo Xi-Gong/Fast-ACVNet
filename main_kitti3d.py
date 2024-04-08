@@ -30,11 +30,11 @@ parser.add_argument('--maxdisp', type=int, default=192, help='maximum disparity'
 parser.add_argument('--dataset', default='kitti3d', help='dataset name', choices=__datasets__.keys())
 parser.add_argument('--kitti3d_datapath', default='./data/KITTI/KITTI_3D/', help='data path, include backslash at the end')
 parser.add_argument('--trainlist', default='./filenames/kitti3d_train.txt', help='training list')
-parser.add_argument('--testlist',default='./filenames/kitti3d_val.txt', help='testing list')
+parser.add_argument('--testlist',default='./filenames/kitti3d_subval.txt', help='testing list')
 
 parser.add_argument('--lr', type=float, default=0.001, help='base learning rate')
-parser.add_argument('--batch_size', type=int, default=8, help='training batch size')
-parser.add_argument('--test_batch_size', type=int, default=8, help='testing batch size')
+parser.add_argument('--batch_size', type=int, default=24, help='training batch size')
+parser.add_argument('--test_batch_size', type=int, default=24, help='testing batch size')
 parser.add_argument('--epochs', type=int, default=500, help='number of epochs to train')
 parser.add_argument('--lrepochs',default="300:10", type=str,  help='the epochs to decay lr: the downscale rate')
 parser.add_argument('--attention_weights_only', default=False, type=str,  help='only train attention weights')
@@ -59,8 +59,8 @@ logger = SummaryWriter(args.logdir)
 StereoDataset = __datasets__[args.dataset]
 train_dataset = StereoDataset(args.kitti3d_datapath, args.trainlist, True)
 test_dataset = StereoDataset(args.kitti3d_datapath, args.testlist, False)
-TrainImgLoader = DataLoader(train_dataset, args.batch_size, shuffle=True, num_workers=8, drop_last=True)
-TestImgLoader = DataLoader(test_dataset, args.test_batch_size, shuffle=False, num_workers=8, drop_last=False)
+TrainImgLoader = DataLoader(train_dataset, args.batch_size, shuffle=True, num_workers=24, drop_last=True)
+TestImgLoader = DataLoader(test_dataset, args.test_batch_size, shuffle=False, num_workers=24, drop_last=False)
 
 # model, optimizer
 model = __models__[args.model](args.maxdisp, args.attention_weights_only)
