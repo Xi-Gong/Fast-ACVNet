@@ -104,16 +104,10 @@ class KITTI3DDataset(Dataset):
                 disparity = np.lib.pad(disparity, ((top_pad, 0), (0, right_pad)), mode='constant', constant_values=0)
 
 
-            if disparity is not None:
-                return {"left": left_img,
-                        "right": right_img,
-                        "disparity": disparity,
-                        "top_pad": top_pad,
-                        "right_pad": right_pad}
-            else:
-                return {"left": left_img,
-                        "right": right_img,
-                        "top_pad": top_pad,
-                        "right_pad": right_pad,
-                        "left_filename": self.left_filepath[index],
-                        "right_filename": self.right_filepath[index]}
+            return {"left": left_img,
+                    "right": right_img,
+                    "disparity": disparity,
+                    "top_pad": top_pad,
+                    "right_pad": right_pad,
+                    "left_filename": self.left_filepath[index],
+                    "right_filename": self.right_filepath[index]}

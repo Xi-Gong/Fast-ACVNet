@@ -30,9 +30,9 @@ parser.add_argument('--model', default='Fast_ACVNet_plus', help='select a model 
 parser.add_argument('--maxdisp', type=int, default=192, help='maximum disparity')
 parser.add_argument('--dataset', default='kitti3d', help='dataset name', choices=__datasets__.keys())
 parser.add_argument('--kitti3d_datapath', default='./data/KITTI/KITTI_3D/', help='data path, include backslash at the end')
-parser.add_argument('--save_dir', default='./output/kitti3d/disp_0', help='save directory')
+parser.add_argument('--save_dir', default='./output/kitti3d/disp_0_3dckpt', help='save directory')
 parser.add_argument('--testlist', default='./filenames/kitti3d_val.txt', help='testing list')
-parser.add_argument('--loadckpt', default='./checkpoints/kitti_2015.ckpt',help='load the weights from a specific checkpoint')
+parser.add_argument('--loadckpt', default='./checkpoints/kitti_3d.ckpt',help='load the weights from a specific checkpoint')
 parser.add_argument('--attention_weights_only', default=False, type=str,  help='only train attention weights')
 # parse arguments
 args = parser.parse_args()
@@ -65,6 +65,7 @@ def test():
                                                 time.time() - start_time))
         top_pad_np = tensor2numpy(sample["top_pad"])
         right_pad_np = tensor2numpy(sample["right_pad"])
+        # print(sample)
         left_filenames = sample["left_filename"]
 
         for disp_est, top_pad, right_pad, fn in zip(disp_est_np, top_pad_np, right_pad_np, left_filenames):
