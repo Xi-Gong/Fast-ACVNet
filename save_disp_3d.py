@@ -34,6 +34,7 @@ parser.add_argument('--save_dir', default='./output/kitti3d/disp_0_3dckpt', help
 parser.add_argument('--testlist', default='./filenames/kitti3d_val.txt', help='testing list')
 parser.add_argument('--loadckpt', default='./checkpoints/kitti_3d.ckpt',help='load the weights from a specific checkpoint')
 parser.add_argument('--attention_weights_only', default=False, type=str,  help='only train attention weights')
+parser.add_argument('--save_format', default='image', choices=['image', 'npy'], help='Format to save the disparity maps (image or npy)')
 # parse arguments
 args = parser.parse_args()
 
@@ -71,12 +72,16 @@ def test():
         for disp_est, top_pad, right_pad, fn in zip(disp_est_np, top_pad_np, right_pad_np, left_filenames):
             assert len(disp_est.shape) == 2
             disp_est = np.array(disp_est[top_pad:, :-right_pad], dtype=np.float32)
-            fn = os.path.join(save_dir, fn.split('/')[-1])
-            print("saving to", fn, disp_est.shape)
-            disp_est_uint = np.round(disp_est * 256).astype(np.uint16)
-            skimage.io.imsave(fn, disp_est_uint)
-            # cv2.imwrite(fn, cv2.applyColorMap(cv2.convertScaleAbs(disp_est_uint, alpha=0.01),cv2.COLORMAP_JET))
-
+            if args.save_format == 'npy':
+                npy_fn = os.path.join(args.save_dir, os.path.basename(fn).replace('.png', '.npy'))
+                print("saving disparity map to", npy_fn)
+                np.save(npy_fn, disp_est.astype(np.float32))
+            else:  # Save as image
+                image_fn = os.path.join(args.save_dir, os.path.basename(fn))
+                print("saving to", fn, disp_est.shape)
+                disp_est_uint = np.round(disp_est * 256).astype(np.uint16)
+                skimage.io.imsave(image_fn, disp_est_uint)
+                # cv2.imwrite(fn, cv2.applyColorMap(cv2.convertScaleAbs(disp_est_uint, alpha=0.01),cv2.COLORMAP_JET))
 
 # test one sample
 @make_nograd_func
