@@ -5,3 +5,4 @@ logs/
 
 *.pyc
 fast_acv_kitti3d_finetune_ckpt.tar
+fast_acv_kitti3d_trainval_finetune_ckpt.tar

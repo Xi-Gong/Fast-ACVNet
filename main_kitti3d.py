@@ -29,7 +29,7 @@ parser.add_argument('--maxdisp', type=int, default=192, help='maximum disparity'
 
 parser.add_argument('--dataset', default='kitti3d', help='dataset name', choices=__datasets__.keys())
 parser.add_argument('--kitti3d_datapath', default='./data/KITTI/KITTI_3D/', help='data path, include backslash at the end')
-parser.add_argument('--trainlist', default='./filenames/kitti3d_train.txt', help='training list')
+parser.add_argument('--trainlist', default='./filenames/kitti3d_trainval.txt', help='training list')
 parser.add_argument('--testlist',default='./filenames/kitti3d_subval.txt', help='testing list')
 
 parser.add_argument('--lr', type=float, default=0.001, help='base learning rate')
@@ -38,7 +38,7 @@ parser.add_argument('--test_batch_size', type=int, default=24, help='testing bat
 parser.add_argument('--epochs', type=int, default=500, help='number of epochs to train')
 parser.add_argument('--lrepochs',default="300:10", type=str,  help='the epochs to decay lr: the downscale rate')
 parser.add_argument('--attention_weights_only', default=False, type=str,  help='only train attention weights')
-parser.add_argument('--logdir',default='./logs', help='the directory to save logs and checkpoints')
+parser.add_argument('--logdir',default='./logs_and_checkpoints', help='the directory to save logs and checkpoints')
 parser.add_argument('--loadckpt', default='',help='load the weights from a specific checkpoint')
 parser.add_argument('--resume', action='store_true', help='continue training the model')
 parser.add_argument('--seed', type=int, default=1, metavar='S', help='random seed (default: 1)')
