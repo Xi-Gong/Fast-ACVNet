@@ -1,6 +1,7 @@
 from cgi import test
 import os
 import random
+from tkinter.messagebox import NO
 from torch.utils.data import Dataset
 from PIL import Image
 import numpy as np
@@ -15,10 +16,12 @@ class KITTI3DDataset(Dataset):
     def __init__(self, kitti3d_datapath, split_file, training):
         self.datapath = kitti3d_datapath
         self.training = training
-        data_prefix = self.datapath + "training/"
+        # data_prefix = self.datapath + "training/"
+        data_prefix = self.datapath + "testing/"
         self.left_filepath, self.right_filepath, self.disp_filepath = \
                 self.load_path(data_prefix, split_file)
-        assert self.disp_filepath is not None
+        if self.training:
+            assert self.disp_filepath is not None
     
     def load_path(self, filepath, split_file):
         left_fold = 'image_2/'
@@ -33,7 +36,11 @@ class KITTI3DDataset(Dataset):
 
         left = [filepath + '/' + left_fold + img + '.png' for img in idx]
         right = [filepath + '/' + right_fold + img + '.png' for img in idx]
-        disp = [filepath + '/' + disp_L + img + '.npy' for img in idx]
+
+        if self.training:
+            disp = [filepath + '/' + disp_L + img + '.npy' for img in idx]
+        else:
+            disp = None
 
         return left, right, disp
 
@@ -103,11 +110,18 @@ class KITTI3DDataset(Dataset):
                 assert len(disparity.shape) == 2
                 disparity = np.lib.pad(disparity, ((top_pad, 0), (0, right_pad)), mode='constant', constant_values=0)
 
-
-            return {"left": left_img,
-                    "right": right_img,
-                    "disparity": disparity,
-                    "top_pad": top_pad,
-                    "right_pad": right_pad,
-                    "left_filename": self.left_filepath[index],
-                    "right_filename": self.right_filepath[index]}
+            if disparity is not None:
+                return {"left": left_img,
+                        "right": right_img,
+                        "disparity": disparity,
+                        "top_pad": top_pad,
+                        "right_pad": right_pad,
+                        "left_filename": self.left_filepath[index],
+                        "right_filename": self.right_filepath[index]}
+            else:
+                return {"left": left_img,
+                        "right": right_img,
+                        "top_pad": top_pad,
+                        "right_pad": right_pad,
+                        "left_filename": self.left_filepath[index],
+                        "right_filename": self.right_filepath[index]}
