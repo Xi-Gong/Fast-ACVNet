@@ -30,11 +30,11 @@ parser.add_argument('--model', default='Fast_ACVNet_plus', help='select a model 
 parser.add_argument('--maxdisp', type=int, default=192, help='maximum disparity')
 parser.add_argument('--dataset', default='kitti3d', help='dataset name', choices=__datasets__.keys())
 parser.add_argument('--kitti3d_datapath', default='./data/KITTI/KITTI_3D/', help='data path, include backslash at the end')
-parser.add_argument('--save_dir', default='./output/kitti3d/disp_0_test_npy', help='save directory')
-parser.add_argument('--testlist', default='./filenames/kitti3d_test.txt', help='testing list')
-parser.add_argument('--loadckpt', default='./checkpoints/kitti_3d_trainval.ckpt',help='load the weights from a specific checkpoint')
+parser.add_argument('--save_dir', default='./output/kitti3d/disp_0_trainval_npy', help='save directory')
+parser.add_argument('--testlist', default='./filenames/kitti3d_trainval.txt', help='testing list')
+parser.add_argument('--loadckpt', default='./checkpoints/kitti_3d_train.ckpt',help='load the weights from a specific checkpoint')
 parser.add_argument('--attention_weights_only', default=False, type=str,  help='only train attention weights')
-parser.add_argument('--save_format', default='image', choices=['image', 'npy'], help='Format to save the disparity maps (image or npy)')
+parser.add_argument('--save_format', default='npy', choices=['image', 'npy'], help='Format to save the disparity maps (image or npy)')
 # parse arguments
 args = parser.parse_args()
 

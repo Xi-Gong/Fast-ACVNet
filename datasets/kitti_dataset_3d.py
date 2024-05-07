@@ -16,8 +16,8 @@ class KITTI3DDataset(Dataset):
     def __init__(self, kitti3d_datapath, split_file, training):
         self.datapath = kitti3d_datapath
         self.training = training
-        # data_prefix = self.datapath + "training/"
-        data_prefix = self.datapath + "testing/"
+        data_prefix = self.datapath + "training/"
+        # data_prefix = self.datapath + "testing/"
         self.left_filepath, self.right_filepath, self.disp_filepath = \
                 self.load_path(data_prefix, split_file)
         if self.training:
